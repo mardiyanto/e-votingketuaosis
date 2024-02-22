@@ -284,8 +284,22 @@ elseif($_GET['aksi']=='paslon'){
         ";	
 }
 elseif($_GET['aksi']=='suara'){
+    if (isset($_GET['error'])) {
+        $error_message = $_GET['error'];
+        echo "<div id='errorAlert' class='alert alert-danger' role='alert'>$error_message</div>";
+        echo "<script>
+                setTimeout(function() {
+                    document.getElementById('errorAlert').style.display='none';
+                }, 5000); // Hilangkan setelah 5 detik
+              </script>";
+    }  
     echo"
-    <div class='row'>";
+    <div class='row'>
+    <div class='col-lg-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading'><a href='hapus.php?aksi=hapussemuadata' type='submit' class='btn btn-primary btn-block'><b>KOSONGKAN DATA</b></a></div>
+            </div>
+        </div>";
     $tebaru=mysqli_query($koneksi," SELECT * FROM paslon ORDER BY id_paslon DESC ");
     while ($t=mysqli_fetch_array($tebaru)){
         $sql = "SELECT id_paslon, SUM(suara_sah) AS total_suara_sah FROM suara WHERE id_paslon=$t[id_paslon] GROUP BY id_paslon";

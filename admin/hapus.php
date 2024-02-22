@@ -35,9 +35,16 @@ if ($result_select) {
 }
 
 }
-elseif($_GET['aksi']=='hapuskecamatan'){
-  mysqli_query($koneksi,"DELETE FROM kecamatan  WHERE id_kecamatan='$_GET[id_kecamatan]'");
-  echo "<script>window.location=('index.php?aksi=kecamatan')</script>";
+elseif($_GET['aksi']=='hapussemuadata'){
+  // Perintah SQL untuk menghapus semua data dari tabel paslon
+$sql = "DELETE FROM suara";
+
+// Eksekusi perintah SQL
+if (mysqli_query($koneksi, $sql)) {
+    echo "<script>window.location=('index.php?aksi=suara&error=Semua data dari tabel suara berhasil dihapus.')</script>";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
+}
 }
 elseif($_GET['aksi']=='hapusdesa'){
   mysqli_query($koneksi,"DELETE FROM desa  WHERE id_desa='$_GET[id_desa]'");
