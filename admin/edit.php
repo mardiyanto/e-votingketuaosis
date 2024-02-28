@@ -15,6 +15,10 @@ elseif($_GET['aksi']=='proseseditsuara'){
 	mysqli_query($koneksi,"UPDATE suara SET suara_sah='$_POST[suara_sah]' WHERE id_suara='$_GET[id_suara]'");
 echo "<script>window.location=('index.php?aksi=inputdata')</script>";
 }
+elseif($_GET['aksi']=='proseseditprofilpaslon'){
+	mysqli_query($koneksi,"UPDATE paslon SET tgl_lahir='$_POST[tgl_lahir]',tmp_lahir='$_POST[tmp_lahir]',visi='$_POST[visi]',misi='$_POST[misi]',pendidikan='$_POST[pendidikan]',prestasi='$_POST[prestasi]' WHERE id_paslon='$_GET[id_paslon]'");
+	echo "<script>window.location=('index.php?aksi=paslon')</script>";
+}
 elseif($_GET['aksi']=='proseseditpaslon'){
 // Ambil ID data yang akan diedit
 $id_paslon = $_GET['id_paslon'];

@@ -168,7 +168,6 @@ elseif($_GET['aksi']=='pemilih'){
     }
     
 elseif($_GET['aksi']=='paslon'){
- 
     echo"
     <div class='col-lg-12'>";
     if (isset($_GET['error'])) {
@@ -205,6 +204,7 @@ elseif($_GET['aksi']=='paslon'){
                                                 <th>No</th>
                                                 <th>Nama Paslon</th>
                                                 <th>aksi</th>
+                                                <th>aksi</th>
                                             </tr>
                                         </thead>
                         ";
@@ -216,7 +216,8 @@ elseif($_GET['aksi']=='paslon'){
                                         echo"<tbody>
                                             <tr>
                                                 <td>$no</td>
-                                                <td>$t[nama_paslon]</td> 
+                                                <td>$t[nama_paslon]</td>
+                                                <td><button class='btn btn-info' data-toggle='modal' data-target='#uiModal$t[id_paslon]'><i class='fa fa-pencil'></i>Profil</button></td>  
                                                 <td>	       <div class='btn-group'>
                           <button type='button' class='btn btn-info'>aksi</button>
                           <button type='button' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>
@@ -231,7 +232,53 @@ elseif($_GET['aksi']=='paslon'){
                        
                                             </tr>
                                            
-                                        </tbody>";
+                                        </tbody>
+                                        <!-- Modal edit-->
+                                        <div class='modal fade' id='uiModal$t[id_paslon]' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+                                                <div class='modal-dialog'>
+                                                    <div class='modal-content'>
+                                                        <div class='modal-header'>
+                                                            <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                                                            <h4 class='modal-title' id='H3'>Edit Data $t[nama_pemilih]</h4>
+                                                        </div>
+                                                                <div class='box-body'>
+                                                                    <form action='edit.php?aksi=proseseditprofilpaslon&id_paslon=$t[id_paslon]' method='post' enctype='multipart/form-data'>
+                                                                    <div class='form-group'>
+                                                                        <label>Tempat Lahir</label>
+                                                                        <input type='text' class='form-control' name='tmp_lahir' value='$t[tmp_lahir]' required='required' placeholder='Masukkan data ..'>
+                                                                    </div>
+                                                                    <div class='form-group'>
+                                                                        <label>Tanggal Lahir</label>
+                                                                        <input type='date' class='form-control' name='tgl_lahir' value='$t[tgl_lahir]' required='required'>
+                                                                    </div>
+                                                                    <div class='form-group'>
+                                                                        <label>Riwayat Pendidikan</label>
+                                                                        <textarea class='form-control' id='text-ckeditor1' name='pendidikan' id='exampleFormControlTextarea1' rows='5'>$t[pendidikan]</textarea>
+                                                                        <script>CKEDITOR.replace('text-ckeditor1');</script>
+                                                                        </div>
+                                                                    <div class='form-group'>
+                                                                    <label>Prestasi</label>
+                                                                    <textarea class='form-control' id='text-ckeditor' name='prestasi' id='exampleFormControlTextarea1' rows='5'>$t[prestasi]</textarea>
+                                                                    <script>CKEDITOR.replace('text-ckeditor');</script>
+                                                                    </div>
+                                                                    <div class='form-group'>
+                                                                    <label>Visi</label>
+                                                                    <textarea class='form-control' name='visi' id='exampleFormControlTextarea1' rows='5'>$t[visi]</textarea>
+                                                                    </div>
+                                                                    <div class='form-group'>
+                                                                    <label>Misi</label>
+                                                                    <textarea class='form-control' name='misi' id='exampleFormControlTextarea1' rows='5'>$t[misi]</textarea>                                                                
+                                                                    </div>
+                                                                    <div class='form-group'>
+                                                                        <input type='submit' class='btn btn-sm btn-primary' value='Simpan'>
+                                                                    </div>
+                                                                    </form>
+                                                                </div>
+                                                    </div>
+                                                </div>
+                                        </div>                                                    
+                                        
+                                        ";
     }
                                     echo"</table>
                                 </div>

@@ -8,6 +8,18 @@
 
 ///////////////////////////lihat/////////////////////////////////////////////
 if($_GET['aksi']=='inputpaslon'){
+    function generateRandomToken($length = 20) {
+        // Karakter yang akan digunakan dalam pembuatan token
+        $characters = '0123456789';
+        $token = '';
+        // Mengambil karakter acak dari daftar karakter dan menggabungkannya menjadi token
+        for ($i = 0; $i < $length; $i++) {
+            $token .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
+    // Contoh penggunaan
+    $token = generateRandomToken(32);  
 // Tangkap data dari formulir
 $nama_paslon = $_POST['nama_paslon'];
 // Tangkap file yang diunggah
@@ -26,7 +38,7 @@ $upload_path = $upload_dir . $nama_file_unik;
 // Pindahkan file ke direktori yang ditentukan
 if (move_uploaded_file($foto['tmp_name'], $upload_path)) {
     // File berhasil diunggah, simpan informasi ke database
-    $sql = "INSERT INTO paslon (nama_paslon, foto) VALUES ('$nama_paslon', '$nama_file_unik')";
+    $sql = "INSERT INTO paslon (nama_paslon, foto,token) VALUES ('$nama_paslon', '$nama_file_unik', '$token')";
     if (mysqli_query($koneksi, $sql)) {
         echo "<script>window.location=('index.php?aksi=paslon&error=Foto berhasil diunggah dan disimpan ke database.')</script>";
     } else {
@@ -36,7 +48,22 @@ if (move_uploaded_file($foto['tmp_name'], $upload_path)) {
     echo "<script>window.location=('index.php?aksi=paslon&error=Maaf, terjadi kesalahan saat mengunggah file.')</script>";
 }
 }
-
+elseif($_GET['aksi']=='inputpaslonok'){
+    
+    $rand = rand();
+    $allowed =  array('gif','png','jpg','jpeg');
+    $filename = $_FILES['foto']['name'];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if(!in_array($ext,$allowed) ) {
+            echo "<script>window.location=('index.php?aksi=paslon&error=Maaf, terjadi kesalahan saat mengunggah file.')</script>";
+        }else{
+            move_uploaded_file($_FILES['foto']['tmp_name'], '../foto/paslon/'.$rand.'_'.$filename);
+            $file_gambar = $rand.'_'.$filename;
+            mysqli_query($koneksi,"insert into paslon (nama_paslon,foto,token) values ('$_POST[nama_paslon]','$file_gambar','$token')"); 
+            echo "<script>window.location=('index.php?aksi=paslon&error=Foto berhasil diunggah dan disimpan ke database.')</script>";
+        }
+ 
+ }
 elseif($_GET['aksi']=='inputpemilih'){
 	mysqli_query($koneksi,"insert into pemilih (nama_pemilih,no_hp,nisn,kelas) values ('$_POST[nama_pemilih]','$_POST[no_hp]','$_POST[nisn]','$_POST[kelas]')");  
 echo "<script>window.location=('index.php?aksi=pemilih')</script>";
