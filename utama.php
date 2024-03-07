@@ -32,7 +32,7 @@ while ($row = $result->fetch_assoc()) { ?>
                   <h3 class="widget-user-username"><?=$row["nama_paslon"]?></h3>
                   <h5 class="widget-user-desc"><?php echo"$k_k[nama_app]";?> <?php echo"$k_k[alias]";?></h5>
                 </div>
-                <a href="index.php?aksi=login&token=<?=$row["token"]?>" class="btn btn-primary btn-block"><b>PILIH</b></a>
+                <a href="index.php?aksi=login&id_paslon=<?=$row["id_paslon"]?>" class="btn btn-primary btn-block"><b>PILIH</b></a>
               </div><!-- /.widget-user -->
                       <!-- About Me Box -->
                       <div class="box box-primary">
