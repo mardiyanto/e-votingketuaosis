@@ -50,7 +50,7 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="index.php">Home <span class="sr-only">(current)</span></a></li>
                 <li><a href="index.php?aksi=home">Quik Count</a></li>
-                <li><a href="index.php?aksi=login">Login</a></li>
+              
               </ul>
               <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
