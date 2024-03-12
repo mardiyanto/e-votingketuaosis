@@ -1,7 +1,7 @@
 
 <section class="content-header">
             <h1>
-              APLIKASI PERHITUNGAN KETUA OSIS
+              APLIKASI PEMILIHAN KETUA OSIS
               <small>V 1.0</small>
             </h1>
             <ol class="breadcrumb">
