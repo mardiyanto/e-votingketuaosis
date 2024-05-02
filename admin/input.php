@@ -38,7 +38,7 @@ $upload_path = $upload_dir . $nama_file_unik;
 // Pindahkan file ke direktori yang ditentukan
 if (move_uploaded_file($foto['tmp_name'], $upload_path)) {
     // File berhasil diunggah, simpan informasi ke database
-    $sql = "INSERT INTO paslon (nama_paslon, foto,token) VALUES ('$nama_paslon', '$nama_file_unik', '$token')";
+    $sql = "INSERT INTO paslon (nama_paslon,foto,token,status) VALUES ('$nama_paslon', '$nama_file_unik', '$token', 'aktif')";
     if (mysqli_query($koneksi, $sql)) {
         echo "<script>window.location=('index.php?aksi=paslon&error=Foto berhasil diunggah dan disimpan ke database.')</script>";
     } else {
@@ -46,6 +46,47 @@ if (move_uploaded_file($foto['tmp_name'], $upload_path)) {
     }
 } else {
     echo "<script>window.location=('index.php?aksi=paslon&error=Maaf, terjadi kesalahan saat mengunggah file.')</script>";
+}
+}
+elseif($_GET['aksi']=='inputketuaosis'){
+    function generateRandomToken($length = 20) {
+        // Karakter yang akan digunakan dalam pembuatan token
+        $characters = '0123456789';
+        $token = '';
+        // Mengambil karakter acak dari daftar karakter dan menggabungkannya menjadi token
+        for ($i = 0; $i < $length; $i++) {
+            $token .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $token;
+    }
+    // Contoh penggunaan
+    $token = generateRandomToken(32);  
+// Tangkap data dari formulir
+$nama_paslon = $_POST['nama_paslon'];
+// Tangkap file yang diunggah
+$foto = $_FILES['foto'];
+// Cek apakah file yang diunggah adalah gambar
+$allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+$file_ext = strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION));
+if (!in_array($file_ext, $allowed_types)) {
+    die("Maaf, hanya format JPG, JPEG, PNG, atau GIF yang diizinkan.");
+}
+// Buat nama file unik dengan menambahkan timestamp
+$nama_file_unik = time() . '_' . basename($foto['name']);
+$upload_dir = "../foto/paslon/";
+$upload_path = $upload_dir . $nama_file_unik;
+
+// Pindahkan file ke direktori yang ditentukan
+if (move_uploaded_file($foto['tmp_name'], $upload_path)) {
+    // File berhasil diunggah, simpan informasi ke database
+    $sql = "INSERT INTO paslon (nama_paslon,foto,token,status) VALUES ('$nama_paslon', '$nama_file_unik', '$token', 'tidak')";
+    if (mysqli_query($koneksi, $sql)) {
+        echo "<script>window.location=('index.php?aksi=ketuaosis&error=Foto berhasil diunggah dan disimpan ke database.')</script>";
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
+    }
+} else {
+    echo "<script>window.location=('index.php?aksi=ketuaosis&error=Maaf, terjadi kesalahan saat mengunggah file.')</script>";
 }
 }
 elseif($_GET['aksi']=='inputpaslonok'){

@@ -17,6 +17,7 @@
                <ul class='treeview-menu'>
                 <li><a href='index.php?aksi=pemilih'><i class='fa fa-arrows-h'></i> Pemilih</a></li>
                 <li><a href='index.php?aksi=paslon'><i class='fa fa-arrows-h'></i> Paslon</a></li>
+                <li><a href='index.php?aksi=ketuaosis'><i class='fa fa-arrows-h'></i> Ketua Osis</a></li>
                 <li><a href='index.php?aksi=suara'><i class='fa fa-arrows-h'></i> Suara</a></li>
                </ul>
 </li>

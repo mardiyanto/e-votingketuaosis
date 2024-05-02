@@ -16,7 +16,7 @@
 			<div class="row">
  <?php
  // Query SQL dengan JOIN dan GROUP BY
-$sql = "SELECT * FROM paslon ORDER BY id_paslon DESC";
+$sql = "SELECT * FROM paslon WHERE status='aktif' ORDER BY id_paslon DESC";
 $result = $koneksi->query($sql);
 if ($result->num_rows > 0) { 
 // Menampilkan data hasil GROUP BY
