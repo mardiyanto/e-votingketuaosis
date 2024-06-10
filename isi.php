@@ -17,7 +17,7 @@ if($_GET['aksi']=='home'){ ?>
 			<div class="row">
  <?php
  // Query SQL dengan JOIN dan GROUP BY
-$sql = "SELECT p.id_paslon, p.nama_paslon, SUM(s.suara_sah) AS total_suara_sah, SUM(s.suara_rusak) AS total_suara_rusak
+$sql = "SELECT p.id_paslon, p.nama_paslon,p.foto, SUM(s.suara_sah) AS total_suara_sah, SUM(s.suara_rusak) AS total_suara_rusak
 FROM paslon p
 JOIN suara s ON p.id_paslon = s.id_paslon
 GROUP BY p.id_paslon";
@@ -128,11 +128,11 @@ elseif($_GET['aksi']=='login'){
                                 <h3 class="box-title">Anda Akan Memilih Ketua OSIS <?=$t[nama_paslon]?></h3>
                               </div><!-- /.box-header -->
                               <!-- form start -->
-                              <form action="index.php?aksi=proseslogin" method="POST">
+                              <form action="osis.php?aksi=proseslogin" method="POST">
                                 <div class="box-body">
                                   <div class="form-group">
                                     <label for="exampleInputEmail1">NISN</label>
-                                    <input type="text" class="form-control" name='nisn' placeholder="NISN">
+                                    <input type="text" class="form-control" name='nisn' value='<?=$_SESSION['nisn']?>' placeholder="NISN">
                                     <input type='hidden'  name='id_paslon' value='<?=$t[id_paslon]?>'>
                                     <input type='hidden' name='suara_sah' value='1'/>
                                   </div>
@@ -161,7 +161,7 @@ elseif($_GET['aksi']=='proseslogin'){
     $result_check = mysqli_query($koneksi, $query_check);
     $num_rows = mysqli_num_rows($result_check);
     if ($num_rows > 0) {
-      echo "<script>alert('ANDA SUDAH MEMILIH SEBELUMNYA!');window.location.href='index.php?aksi=login&id_paslon=$_POST[id_paslon]'</script>";
+      echo "<script>alert('ANDA SUDAH MEMILIH SEBELUMNYA!');window.location.href='osis.php?aksi=login&id_paslon=$_POST[id_paslon]'</script>";
     } else {
       mysqli_query($koneksi,"insert into suara (id_pemilih,id_paslon,suara_sah,tahun) values ('$id_pemilih','$_POST[id_paslon]','$_POST[suara_sah]','$tahun')"); 
       echo "<script>alert('Data berhasil di inputkan');window.location.href='index.php'</script>";
@@ -173,4 +173,20 @@ elseif($_GET['aksi']=='proseslogin'){
        // Me 
   ?>
 
-<?php } ?>
+<?php } 
+elseif($_GET['aksi']=='loginutama'){ 
+  $nisn = $_POST["nisn"];
+  $login = mysqli_query($koneksi, "SELECT * FROM pemilih WHERE nisn='$nisn'");
+	$cek = mysqli_num_rows($login);
+	if($cek > 0){
+		session_start();
+		$data = mysqli_fetch_assoc($login);
+		$_SESSION['nisn'] = $data['nisn'];
+    $_SESSION['nama_pemilih'] = $data['nama_pemilih'];
+		$_SESSION['status'] = "siswa";
+		echo "<script>alert('ANDA SUDAH MEMILIH SEBELUMNYA!');window.location.href='osis.php'</script>";
+	}else{
+    echo "<script>alert('Data belum terdaftar');window.location.href='index.php?aksi=login&id_paslon=$_POST[id_paslon]'</script>";
+	}
+} 
+?>
